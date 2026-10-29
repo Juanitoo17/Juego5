@@ -15,7 +15,16 @@ from turtle import *
 from freegames import path
 
 car = path('car.gif')
-tiles = list(range(32)) * 2
+# Emojis para ayudar a la memoria visual y de reconocimiento
+# 32 pares de emojis para rellenar perfectamente las 64 casillas del tablero (8x8)
+emojis = [
+    '🍎', '🍌', '🍇', '🍉', '🍓', '🍒', '🍍', '🥝', 
+    '🐶', '🐱', '🦊', '🐼', '🐨', '🦁', '🐯', '🐰',
+    '🐸', '🐵', '🦄', '🐝', '🐞', '🦋', '🐢', '🐍',
+    '🚀', '⭐', '⚽', '🏀', '🚗', '✈️', '🎨', '🎸'
+] * 2
+
+tiles = emojis
 state = {'mark': None, 'taps': 0}
 hide = [True] * 64
 
@@ -97,11 +106,11 @@ def draw():
     mark = state['mark']
 
     if mark is not None and hide[mark]:
-        x, y = xy(mark)
-        up()
-        goto(x + 2, y)
-        color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+    	x, y = xy(mark)
+    	up()
+    	goto(x + 25, y + 8)  # <--- Coordenadas del centro del cuadro
+    	color('black')
+    	write(tiles[mark], align='center', font=('Arial', 24, 'normal'))  # <--- align='center'
 
     update()
     ontimer(draw, 100)
