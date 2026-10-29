@@ -16,7 +16,7 @@ from freegames import path
 
 car = path('car.gif')
 tiles = list(range(32)) * 2
-state = {'mark': None}
+state = {'mark': None, 'taps': 0}
 hide = [True] * 64
 
 
@@ -44,8 +44,25 @@ def xy(count):
 
 
 def tap(x, y):
-    """Update mark and hidden tiles based on tap."""
+    """Cuenta clics en casillas cubiertas y comprueba las parejas."""
+    # Ignora los clics fuera del tablero.
+    if not (-200 <= x < 200 and -200 <= y < 200):
+        return
+
     spot = index(x, y)
+
+    # Las casillas ya resueltas no suman taps.
+    if not hide[spot]:
+        return
+
+    state['taps'] += 1
+    counter.clear()
+    counter.write(
+        'Taps: ' + str(state['taps']),
+        align='center',
+        font=('Arial', 14, 'normal'),
+    )
+
     mark = state['mark']
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
@@ -82,10 +99,17 @@ def draw():
 
 
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(420, 460, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
+
+# Un escritor independiente mantiene visible el contador.
+counter = Turtle(visible=False)
+counter.penup()
+counter.goto(0, 205)
+counter.write('Taps: 0', align='center', font=('Arial', 14, 'normal'))
+
 onscreenclick(tap)
 draw()
 done()
