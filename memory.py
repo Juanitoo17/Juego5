@@ -72,6 +72,15 @@ def tap(x, y):
         hide[mark] = False
         state['mark'] = None
 
+        # Comprueba si ya se encontraron todas las parejas.
+        if not any(hide):
+            counter.clear()
+            counter.write(
+               '¡Juego completado! Taps: ' + str(state['taps']),
+               align='center',
+               font=('Arial', 14, 'normal'),
+            )
+
 
 def draw():
     """Draw image and tiles."""
